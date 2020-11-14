@@ -1,0 +1,46 @@
+Failover_no_Mikrotik.txt
+
+Failover no Mikrotik
+
+Configuração do Failover
+
+	Para configura o failover é necessário modificar a distancia administrativa, nesse sentido quanto menor a distancia maior a prioridade.
+
+	Nesse caso especificamente, foi configurado a distancia adminisntrativa 2 para o link da brisanet e 3 para o link da Oi.
+
+	Além disso, foi configurada um rota com destino 8.8.8.8 via brisante e outra rota com o destino 8.8.4.4 via oi, afim de monitora as interfaces do link!
+
+
+Script para o Netwatch
+
+	Caminho para o netwatch via Winbox: Tools -> Netwatch 
+
+	Obs.: Será necessário criar dois netwatch para o monitoramento dos links. Nesse caso foi criado o netwatch para o 8.8.8.8 e outro para o 8.8.4.4.
+
+		UP -> Link principal:
+
+			/ip route enable [find comment="brisanet "]
+
+			/tool e-mail send to ="paulotc29@gmail.com" subject="O link da brisanet voltou!"
+
+		UP -> Link secundário:
+
+			/ip route enable [find comment="oi"]
+
+			/tool e-mail send to ="paulotc29@gmail.com" subject="O link da brisanet voltou!"
+
+		DOWN -> Link principal:
+
+			/ip route disable [find comment="brisanet"]
+
+			/log erro "O link da brisanet está fora!"
+
+			/tool e-mail send to ="paulotc29@gmail.com" subject="O link da brisanet está fora!"
+
+		DOWN -> Link secundário:
+
+			/ip route disable [find comment="oi"]
+
+			/log erro "O link da oi está fora!"
+			
+			/tool e-mail send to ="paulotc29@gmail.com" subject="O link da oi está fora!"
