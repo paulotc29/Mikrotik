@@ -1,2 +1,2 @@
 # Mikrotik
-Configurações feitas no Kikrotik
+Configurações feitas no Mikrotik
